@@ -1,0 +1,88 @@
+﻿<Window x:Class="WPF3.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF3.View"
+        xmlns:local1="clr-namespace:WPF3.Model"
+        mc:Ignorable="d"
+        Title="Список товаров" Height="400" Width="650" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local1:ConverterBase64ToImage x:Key="ConverterBase64ToImage"/>
+    </Window.Resources>
+    <Grid
+        Background="LightGray">
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Verdana"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="*"/>
+            <RowDefinition
+                Height="0.275*"/>
+        </Grid.RowDefinitions>
+        <ListBox
+            x:Name="Lbox_goods"
+            ItemsSource="{Binding}"
+            Background="White"
+            Grid.Row="0"
+            Margin="20,20,20,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                        <Image
+                            Height="100"
+                            Width="100"
+                            Source="{Binding QrCode, Converter={StaticResource ConverterBase64ToImage}}"/>
+                        <StackPanel
+                            Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="10,0,0,0">
+                            <TextBlock
+                                Text="{Binding Name}"/>
+                            <TextBlock
+                                Text="{Binding Price}"/>
+                            <TextBlock
+                                Text="{Binding Description}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        x:Name="OpenEditWnd_btn"
+                        Header="Редактировать"
+                        Click="OpenEditWnd_btn_Click"/>
+                    <MenuItem
+                        x:Name="RemoveGood_btn"
+                        Header="Удалить"
+                        Click="RemoveGood_btn_Click"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            <Button
+                x:Name="OpenAddWnd_btn"
+                Height="40"
+                Width="200"
+                FontSize="16"
+                FontFamily="Verdana"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Content="Добавить"
+                Click="OpenAddWnd_btn_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
